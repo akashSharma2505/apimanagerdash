@@ -8,10 +8,15 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "cross-spawn": "^0.2.3",
     "express": "^4.15.4",
     "express4-tedious": "^0.1.0",
+    "graceful-fs": "~3.0.4",
+    "node-base64-image": "^1.0.4",
     "swagger-express-mw": "^0.1.0",
-    "tedious": "^2.0.0"
+    "tedious": "^2.0.0",
+    "tmp": "~0.0.25"
   },
   "devDependencies": {
     "should": "^7.1.0",
