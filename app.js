@@ -20,7 +20,7 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.text());
 app.use('/changeList', require('./api/controllers/changelist'));
-app.use('/ghservice', require('./api/controllers/ghservice'));
+app.use('/crewmembers', require('./api/controllers/ghservice'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

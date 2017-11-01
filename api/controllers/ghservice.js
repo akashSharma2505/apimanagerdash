@@ -15,5 +15,14 @@ router.get('/', function (req, res) {
         .into(res, '[]');
 });
 
-
+/* GET single task. */
+router.get('/:id', function (req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
+        req.query("SELECT * FROM [dbo].[crew] where EmpId = @id for json path")
+            .param('id', req.params.id, TYPES.NVarChar)
+            .into(res, '{}');
+    });
+    
 module.exports = router;
