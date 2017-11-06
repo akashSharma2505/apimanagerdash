@@ -21,6 +21,7 @@ app.use(function (req, res, next) {
 app.use(bodyParser.text());
 app.use('/changeList', require('./api/controllers/changelist'));
 app.use('/crewmembers', require('./api/controllers/ghservice'));
+app.use('/SASUsers/', require('./api/controllers/Users'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
