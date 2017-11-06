@@ -11,7 +11,7 @@ var fs = require('fs');
 router.get('/', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    req.query("SELECT * FROM [dbo].[crewlist] FOR JSON PATH ")
+    req.query("SELECT * FROM [dbo].[SASUser] FOR JSON PATH ")
         .into(res, '[]');
 });
 /*GET User specific details */
@@ -19,17 +19,27 @@ router.get('/:id', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-    req.query("SELECT * FROM [dbo].[crew] where EmpId = @id for json path")
+    req.query("SELECT * FROM [dbo].[SASUser] where UserID = @id for json path")
         .param('id', req.params.id, TYPES.NVarChar)
         .into(res, '{}');
 });
+
+/* PUT update task. */
+router.put('/:id', function (req, res) {
+    
+        req.query("UPDATE [dbo].[SASUser] SET [CompletionStatus] = 1 WHERE UserID=@id")            
+            .param('@id', req.param.id, TYPES.NVarChar)
+            .exec(res);
+    
+    });
+    
 
 /*GET User Hotel details */
 router.get('/:id/Hotel', function (req, res) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
-        req.query("SELECT * FROM [dbo].[crew] where EmpId = @id for json path")
+        req.query("SELECT * FROM [dbo].[Hotel] where UserID = @id for json path")
             .param('id', req.params.id, TYPES.NVarChar)
             .into(res, '{}');
     });
@@ -38,7 +48,7 @@ router.get('/:id/Hotel', function (req, res) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
-        req.query("SELECT * FROM [dbo].[crew] where EmpId = @id for json path")
+        req.query("SELECT * FROM [dbo].[Flight] where UserID = @id for json path")
             .param('id', req.params.id, TYPES.NVarChar)
             .into(res, '{}');
     });
