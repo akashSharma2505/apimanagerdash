@@ -47,10 +47,30 @@ router.get('/:id/Hotel', function (req, res) {
     router.get('/:id/Flight', function (req, res) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    
+        var date=req.query.date;
+        var location=req.query.location;
+        if(date!="null" || location!="null"){
+        if(date=="null"){
+            req.query("SELECT * FROM [dbo].[Flight] where UserID = @id AND Destination = "+location+" for json path")
+            .param('id', req.params.id, TYPES.NVarChar)
+            .into(res, '{}');
+        }
+        else if(location=="null"){
+            req.query("SELECT * FROM [dbo].[Flight] where UserID = @id AND ArrivalDate = "+date+" for json path")
+            .param('id', req.params.id, TYPES.NVarChar)
+            .into(res, '{}');
+        }
+        else{
+            req.query("SELECT * FROM [dbo].[Flight] where UserID = @id AND Destination = "+location+" AND ArrivalDate = " + date + " for json path")
+            .param('id', req.params.id, TYPES.NVarChar)
+            .into(res, '{}');
+        }
+    }
+        else{
         req.query("SELECT * FROM [dbo].[Flight] where UserID = @id for json path")
             .param('id', req.params.id, TYPES.NVarChar)
             .into(res, '{}');
+        }
     });
     
 module.exports = router;
