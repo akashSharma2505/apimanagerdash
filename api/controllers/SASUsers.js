@@ -16,7 +16,7 @@ var fs = require('fs');
 router.get('/', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    console.log("request value is "+req.query.q);
+    console.log("request value is " + req.query.q);
     req.query("SELECT * FROM [dbo].[SASUser] FOR JSON PATH ")
         .into(res, '[]');
 });
@@ -50,17 +50,43 @@ router.get('/:id/Hotel', function (req, res) {
         .into(res, '{}');
 });
 /*GET User Flight details */
- router.get('/:id/Flight/:loc', function (req, res) {
+router.get('/:id/Flight/:loc/:dt', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    console.log("request value is "+req.params.loc);
-        req.query("SELECT * FROM [dbo].[Flight] where UserID = @id AND Destination = @loc for json path")
+    console.log("request value is " + req.params.dt);
+    if (req.params.loc != "null" || req.params.dt != "null") {
+        if (req.params.loc == "null") {
+            req.query("SELECT * FROM [dbo].[Flight] where UserID = @id AND ArrivaleDate = @dt for json path")
+                .param('id', req.params.id, TYPES.NVarChar)
+                .param('loc', req.params.loc, TYPES.NVarChar)
+                .param('dt', req.params.dt, TYPES.NVarChar)
+                .into(res, '{}');
+        }
+        else if (req.params.dt == "null") {
+            req.query("SELECT * FROM [dbo].[Flight] where UserID = @id AND Destination = @loc for json path")
+                .param('id', req.params.id, TYPES.NVarChar)
+                .param('loc', req.params.loc, TYPES.NVarChar)
+                .param('dt', req.params.dt, TYPES.NVarChar)
+                .into(res, '{}');
+        }
+        else {
+            req.query("SELECT * FROM [dbo].[Flight] where UserID = @id AND Destination = @loc AND ArrivaleDate = @dt for json path")
+                .param('id', req.params.id, TYPES.NVarChar)
+                .param('loc', req.params.loc, TYPES.NVarChar)
+                .param('dt', req.params.dt, TYPES.NVarChar)
+                .into(res, '{}');
+        }
+    }
+    else {
+
+        req.query("SELECT * FROM [dbo].[Flight] where UserID = @id for json path")
             .param('id', req.params.id, TYPES.NVarChar)
             .param('loc', req.params.loc, TYPES.NVarChar)
+            .param('dt', req.params.dt, TYPES.NVarChar)
             .into(res, '{}');
-            
-    
-}); 
+    }
+
+});
 /* app.set('port', process.env.PORT || 3240);
 app.get('/:id/Flight', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
