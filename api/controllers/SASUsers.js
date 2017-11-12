@@ -107,7 +107,7 @@ router.get('/:id/Flight/:loc/:dt', function (req, res) {
     }
     else {
 
-        req.query("SELECT * FROM [dbo].[Flight] where UserID = @id for json path")
+        req.query("SELECT * FROM [dbo].[Flight] where UserID = @id ORDER BY RoleOrder for json path")
             .param('id', req.params.id, TYPES.NVarChar)
             .param('loc', req.params.loc, TYPES.NVarChar)
             .param('dt', req.params.dt, TYPES.NVarChar)
