@@ -17,7 +17,7 @@ router.get('/', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log("request value is " + req.query.q);
-    req.query("SELECT * FROM [dbo].[SASUser] ORDER BY RoleOrder DESC FOR JSON PATH ")
+    req.query("SELECT * FROM [dbo].[SASUser] ORDER BY RoleOrder ASC FOR JSON PATH ")
         .into(res, '[]');
 });
 /*GET User specific details */
